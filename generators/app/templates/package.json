@@ -1,0 +1,33 @@
+{
+  "name": "",
+  "prefix": "",
+  "version": "0.0.0",
+  "description": "",
+  "authorName": "",
+  "email": "",
+  "githubAccount": "",
+  "includeReadme": "",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "jquery": "^3.3.1",
+    "karma-cli": "^1.0.1",
+    "mongodb": "^3.1.9",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies" : {
+    "karma": "^3.1.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^2.0.1"
+  }
+}
