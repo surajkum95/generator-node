@@ -17,6 +17,8 @@ Use Gulp/Grunt JS to operate on your main JS file and gulp will help you in oper
  
 *******************************************************************
  Steps to install generator-node project in your system :-
+ /*before following the below steps, check whether 'yo' is globally installed or not in C:\Users\surajsk\AppData\Roaming\npm\node_modules . If not Present , then first, install 'yo' by running 
+ 'npm install yo -g'.*/
 1.
 clone your generator project from github in C:\Users\surajsk\AppData\Roaming\npm\node_modules.
 2.
