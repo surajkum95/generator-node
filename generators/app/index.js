@@ -27,7 +27,7 @@ module.exports = class extends generators {
 
     constructor(args, options) {
 		// Calling the super constructor is important so our generator is correctly set up
-        super(args, options); //helps in calling the method of generators (parent) class. 
+        super(args, options);//helps in invoking the constructor of parent class i.e (generators) before invoking its own constructor. 
         //this.config.save();
         // Next, add your custom code
         //
@@ -104,6 +104,12 @@ module.exports = class extends generators {
         if(!this.options['skip-project-install']){
             this.log('skip-project-installation : false');
         }
+
+        // this.option() accepts a name i.e suppose this.option('x123'). Now, this name value i.e 'x123' will be used to retrieve
+        // the option at the matching key. i.e this.options.x123 or this.options['x123']
+        //understanding for this.option --> this is used to tell the system that we expect this much as an option which we can pass
+        //through the command line arguement like yo node --prefixName="Suraj" . And, this.options.prefixName is used to
+        //take the inputted value from the command line i.e this.options.prefixName will give me 'Suraj'.
 		
 		   //this.log('this.options.prefix', this.options.prefix);
 
@@ -122,10 +128,10 @@ module.exports = class extends generators {
         name : this.pkgJSON.name,
         prefix : this.pkgJSON.prefix,
         description : this.pkgJSON.description, 
-        authorName : this.pkgJSON.description,
-        email : this.pkgJSON.description,
-        githubAccount : this.pkgJSON.description,
-        includeReadme : this.pkgJSON.description,
+        authorName : this.pkgJSON.authorName,
+        email : this.pkgJSON.email,
+        githubAccount : this.pkgJSON.githubAccount,
+        includeReadme : this.pkgJSON.includeReadme,
         version : this.pkgJSON.version,
         scripts : this.pkgJSON.scripts,
         dependencies : this.pkgJSON.dependencies,
@@ -212,6 +218,9 @@ module.exports = class extends generators {
 
     writing() {
 
+      // Generators expose all file methods on this.fs, which is an instance of mem-fs editor - make sure to check the module documentation for all available methods.
+      // It is worth noting that although this.fs exposes commit, you should not call it in your generator. Yeoman calls this internally after the conflicts stage of the run loop.
+
       this.log(this.options.includeReadme);//this will give values only for the input entered in cli as yo node --includeReadme=xyz //this will give value as xyz
       //otherwise , the value what we will get will be undefined. To access the entered user input, you have to use packageJson what you have stored/configured in prompt.then() function. 
       this.log(packageJson.includeReadme);
@@ -255,6 +264,13 @@ module.exports = class extends generators {
                   //console.log('Temp File Created!');
                 }
               });
+              //we are going to read the existing node project package.json becoz suppose in the current project which we are 
+              //going to make, suppose we enter/include less number of fields .Then , in that case if we do not read it and if we 
+              //do not make one tempcache file so that it includes older package.json fields --> then, the latest package.json
+              //will override the older package.json file and the fields which were in the previous file and were not included in
+              //the current one will be lost.so, we are assigning the previous one into cache file and then including the fields
+              //of latest one into that cache file so that whatever fields are there will get override and whatever is not present in
+              //latest one will remain as it is. and then, we are assigning that json of cache file into current package.json file.
               this.fs.extendJSON(this.destinationPath('.tempCacheFile'),jsonofExistingNodeProject); //To be noted that extendJSON also overrides the existing data of the JSON.
               this.fs.extendJSON(this.destinationPath('.tempCacheFile'),packageJson);//we can't assign directly jsonofExistingNodeProject into packageJson because it will override the user inputted values.
               this.fs.writeJSON(this.destinationPath('package.json'), this.fs.readJSON(this.destinationPath('.tempCacheFile')));             
